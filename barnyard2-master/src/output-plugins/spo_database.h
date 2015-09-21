@@ -400,7 +400,7 @@ typedef struct _DatabaseData
     int       cid;
     int       reference;
     int       use_ssl;
-    
+    int       auto_capture;
     /* Some static allocated buffers, they might need some cleanup before release */
     char timestampHolder[SMALLBUFFER]; /* For timestamp conversion .... */
     char PacketDataNotEscaped[MAX_QUERY_LENGTH];

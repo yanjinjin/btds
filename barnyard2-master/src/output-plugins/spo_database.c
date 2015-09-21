@@ -983,14 +983,19 @@ void ParseDatabaseArgs(DatabaseData *data)
     data->detail = DETAIL_FULL;
     data->ignore_bpf = 0;
     data->use_ssl = 0;
-    
+    data->auto_capture=0;
     
     facility = strtok(data->args, ", ");
     if(facility != NULL)
     {
         if((!strncasecmp(facility,"log",3)) || (!strncasecmp(facility,"alert",5)))
             data->facility = facility;
-        else
+        else if (!strncasecmp(facility,"tcpdump",7))
+		{
+			data->facility="log\0";
+			data->auto_capture=1;
+        }	
+		else
         {
             ErrorMessage("ERROR database: The first argument needs to be the logging facility\n");
             DatabasePrintUsage();
@@ -2636,7 +2641,7 @@ static int tcpdump_event(Packet *p, void *event, DatabaseData *data)
 	char date[32]={0};
 	char time[32]={0};
 	int classification = ntohl(((Unified2EventCommon *)event)->classification_id);
-	if(classification!=21||classification!=35)
+	if(classification!=21&&classification!=35)
 	{
 		return -1;
 	}
@@ -2867,8 +2872,9 @@ TransacRollback:
     }
     
     //add tcpdump
-    tcpdump_event(p,event,data);
-	
+    if(data->auto_capture)
+		tcpdump_event(p,event,data);
+		
     /* Clean the query */
     SQL_Cleanup(data);
     
