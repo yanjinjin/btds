@@ -1,0 +1,44 @@
+#!/bin/bash
+#set -x
+log_file=/tmp/proccess.log
+source /etc/profile
+lsmod |grep pf_ring
+if [ $? -eq 1 ];then
+	echo `date +%Y%m%d'-'%H':'%M':'%S%A`"---wait pf_ring" >>$log_file
+	insmod /lib/modules/2.6.32-431.el6.x86_64/kernel/net/pf_ring/pf_ring.ko transparent_mode=2 min_num_slots=65534
+fi
+
+/etc/init.d/mysqld start
+/etc/init.d/rsyslog start
+ifconfig eth1 up
+sleep 2
+
+rm -rf /root/snorby/tmp/pids/server.pid
+cd /root/snorby&&rails server -e production -p 80&
+barnyard2 -c /etc/suricata/barnyard2.conf -d /var/log/suricata/ -f unified2.alert -w /var/log/suricata/bookmarking -D&
+suricata --pfring-int=eth1 --pfring-cluster-id=99 --pfring-cluster-type=cluster_flow -c /etc/suricata/suricata.yaml&
+
+while true
+do
+	sleep 20
+	num=`ps -ef|grep mysqld|grep -v grep|wc -l`
+	if [ $num -eq 0 ];then
+                /etc/init.d/mysqld restart
+		echo `date +%Y%m%d'-'%H':'%M':'%S%A`"---mysql process was lost" >>$log_file	
+        fi
+        num=`ps -ef|grep suricata.yaml|grep -v grep|wc -l`
+        if [ $num -eq 0 ];then
+                suricata --pfring-int=eth1 --pfring-cluster-id=99 --pfring-cluster-type=cluster_flow -c /etc/suricata/suricata.yaml&
+        	echo `date +%Y%m%d'-'%H':'%M':'%S%A`"---suricata process was lost" >>$log_file
+	fi
+	num=`ps -ef|grep barnyard2|grep -v grep|wc -l`
+        if [ $num -eq 0 ];then
+                barnyard2 -c /etc/suricata/barnyard2.conf -d /var/log/suricata/ -f unified2.alert -w /var/log/suricata/bookmarking -D&
+		echo `date +%Y%m%d'-'%H':'%M':'%S%A`"---barnyard2 process was lost" >>$log_file
+        fi
+	num=`ps -ef|grep rails|grep -v grep|wc -l`
+        if [ $num -eq 0 ];then
+                cd /root/snorby&&rails server -e production -p 80&
+		echo `date +%Y%m%d'-'%H':'%M':'%S%A`"---rails process was lost" >>$log_file
+        fi
+done
