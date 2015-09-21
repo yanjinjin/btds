@@ -1,0 +1,33 @@
+<%= snorby_box("保存搜索", false) do %>
+
+  <div id='saved-search-form' class='boxit page'>
+    <%= form_for @search, :html => { :class => 'validate' } do |f| %>
+      
+      <%= error_messages_for(@search) %>
+
+      <p>
+        <%= f.label '搜索标题' %><br />
+        <%= f.text_field :title, :class => 'required', 
+          :style => "width: 400px;",
+           :autocomplete => :off %>
+      </p>
+
+      <br />
+
+      <p>
+        <%= f.check_box :public %> <%= f.label '公开展示搜索结果' %><br />
+      </p>
+
+    <% end %>
+    
+  </div>
+
+  <%= snorby_box_footer do %>
+    <%= form_actions do %>
+      <%= button "保存", :class => 'success new-saved-search-record' %>
+      <%= button "取消", :class => 'warning cancel-snorbybox' %>
+    <% end %>
+  <% end %>
+
+<% end %>
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<%= render :partial => 'layouts/version.html.erb' %>
+
+<html class='login'>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <title><%= content_for?(:title) ? yield(:title) : "Snorby #{Snorby::VERSION}" %></title>
+
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Snorby - All About Simplicity" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+
+    <%= csrf_meta_tag %>
+
+    <script type="text/javascript" charset="utf-8">
+      var snorby_url = "<%= request.protocol %><%= escape_javascript request.host %>";
+    </script>
+
+    <%= include_stylesheets :snorby, :media => 'all' %>
+    <%= include_javascripts :snorby %>
+    <style type="text/css">
+    body,ul,li,div,h1,h2,h3,h4,dl,dd{margin:0px;padding:0px;}
+
+    #s-wrapper{width:1024px;margin: 0px auto;margin-top: 5%;}
+    #s-logo-box{margin-bottom: 8%;}
+    #s-body-box>img{float:left;}
+
+    #s-login-box{font-family:黑体;display: inline-block;width: 335px; border: 8px #EBEBEB solid;vertical-align: 20px; margin-left: 25px; float:left;margin-top: 25px;}
+
+    #s-login-box dl{margin-left: 40px;_margin-left: 25px;margin-top:15px;*margin-top:0px;float: left;}
+    #s-login-box dd{margin-bottom: 10px;height:34px;}
+
+    #s-login-box h3{padding:10px;background:#F8F8F8;color:#747474; font-weight:bold;text-align:center;}
+
+    #s-login-box .s-msg-label{color: red;font-size:12px; height:auto;}
+    #s-login-box input{height:31px; width: 250px; background:url("/static/images/login/shurukuang.png");border:1px #CCCCCC solid;margin: 0px;}
+    #s-login-box .s-img-username{background: url("/static/images/login/login_user_s.png");display: block; float:left;width:35px; height: 35px;cursor: pointer;*margin-top:1px;}
+    #s-login-box .s-img-username:hover{background: url("/static/images/login/login_user_q.png");}
+    #s-login-box .s-img-passwd{background: url("/static/images/login/login_pwd_s.png");width:35px; height: 35px;cursor: pointer;display: block; float:left;*margin-top:1px;}
+    #s-login-box .s-img-passwd:hover{background: url("/static/images/login/login_pwd_q.png");}
+    #s-login-box .s-img-validate{vertical-align:-13px; height:35px;border:0px;padding:0px;width:90px;cursor: pointer;}
+    #s-login-box .s-img-show{vertical-align:-13px; height:16px;border:0px;padding:0px;width:16px;cursor: pointer;margin-bottom:9px;padding-left:5px;}
+    #s-login-box a{color:#1C86BF;font-size: 12px;}
+
+    #s-login-box .validate{width:100px;}
+    #s-login-box .u-button-login{color:white;width:263px;background:#31A2E1;height:33px;font-size:15px;border:0px;}
+    #s-login-box .u-button-login:hover{background:orange;cursor: pointer;}
+
+    #s-login-box .s-error-label{height:auto;color: red;font-size:12px;}
+    #s-login-box .s-error-label label{width:100px;border:0px;height: 6px;padding:0px;line-height:1px;}
+
+    </style>
+  </head>
+
+  <body>
+ <div id="s-wrapper">
+    <div id="s-logo-box">
+       <%= image_tag('logo.png') %>
+    </div>
+    <div>
+    <table width="1024">
+    <tr>
+      <td>
+       <%= image_tag("logo_denglu.png") %>
+      </td>
+      <td>
+    <div id="login">
+      <!--<%= image_tag 'login.png', width: '500px', style: 'padding-bottom: 20px' %>-->
+      <%= yield %>
+     
+<!--
+       <div class="login-footer">
+      &copy;  <%= Time.now.year %> <a href="http://www.titansec.com.cn/">上海天泰网络技术有限公司</a>
+      <br><br> 
+        -->
+      </div>
+    </div>
+    	</td>
+      </tr>
+    </table>
+        
+      </div>
+    </div>
+    <%- flash.each do |type, message| -%>
+
+      <script type="text/javascript" charset="utf-8">
+        flash_message.push({type: "<%= type %>", message: "<%= message %>"}); flash();
+      </script>
+
+    <%- end -%>
+
+  </body>
+</html>

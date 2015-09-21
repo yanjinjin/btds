@@ -1,0 +1,31 @@
+<% page_title = (params[:title] ? params[:title] : "搜索结果") %>
+	
+<%= title "#{truncate(h(page_title))} <i>#{pluralize(@events.pager.total, 'event')} </i>".html_safe, "#{truncate(h(page_title))}" do %>
+ <!--<%= menu_item "Hotkeys", hotkey_events_path, 'events/keyboard.png', :class => 'snorbybox', :"data-width" => '753px' %>-->
+
+  <!--<%= render :partial => 'events/menu' %>-->
+
+  <%= drop_down_for('操作', 'icons/filter.png', 'options') do %>
+
+    <% if @search_object %>
+      <%= drop_down_item "编辑当前搜索结果", view_saved_search_path(@search_object), nil %>
+    <% else %>
+      <%= drop_down_item "保存当前搜索结果", new_saved_search_path, nil, { :class => "snorbybox" } %>
+    <% end %>
+
+    <%= drop_down_item "查看已保存的搜索结果", saved_searches_path, nil %>
+
+  <% end %>
+<% end %>
+
+<% if @search %>
+  <div id="search-params" style="display:none;">
+    <%= @params %>
+  </div>
+<% end %>
+
+<div class="results" data-direction="<%= params[:direction] %>" data-sort="<%= params[:sort] %>">
+  <%= render :partial => 'page/events' %>
+</div>
+
+<!--<%= render :partial => 'events/hotkeys' %>-->

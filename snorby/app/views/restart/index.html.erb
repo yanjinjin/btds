@@ -1,0 +1,16 @@
+<% if current_user.admin %>
+	
+	<%= title "重启系统" -%>
+<% end %>	
+
+<div id="restart" class='boxit'>
+	
+	<table class='default' border="0" cellspacing="0" cellpadding="0">
+		<tr>		
+			<td>重新启动操作系统会导致页面失效几分钟，请耐心等待!</td>
+		</tr>
+		<tr>		
+			<td><%= link_to "重启","/restart/update" ,:class=>"btn",confirm: '确认重启系统吗？页面即将失效！'%></td>
+		</tr>
+	</table>		
+</div>

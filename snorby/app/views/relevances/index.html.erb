@@ -1,0 +1,22 @@
+<%= title "Listing Relevances" do -%>
+    <%= menu_item "Add Relevance", new_relevance_path %>
+<%- end -%>
+
+<div id="relevances" class='boxit'>
+<table class='default' border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th>Sig name</th>
+    <th>Classification</th>
+    <!--<th></th>-->
+    <th>&nbsp</th>
+    <th>&nbsp</th>
+  </tr>
+  <tbody class='relevances'>
+    <%= render @relevances %>
+  </tbody>
+
+</table>
+
+<br />
+<%= pager(@relevances, request.fullpath) %>
+</div>

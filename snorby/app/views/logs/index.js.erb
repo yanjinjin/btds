@@ -1,0 +1,3 @@
+$('div#logs').replaceWith("<%= escape_javascript(render(:partial => 'logs/logs', :locals => { :logs => @logs })) %>");
+flash();
+

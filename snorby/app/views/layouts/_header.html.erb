@@ -1,0 +1,105 @@
+<div id="header">
+	<div id="header-inside">
+		<div id="header-content">
+			<div id="header-top" class='container_12'>
+				
+				<div id="logo" class='grid_6'>
+					<%= link_to "Snorby", root_path %>
+				</div>
+				
+				<div id="user-menu" class=''>
+					
+					<ul>
+						<% if user_signed_in? %>
+
+							<li class='first'>当前用户: <%= current_user.name %></li>
+							<li><%= link_to '用户设置', edit_user_registration_path %></li>
+							<li class='last'><%= link_to '退出', destroy_user_session_path %></li>
+							
+            <% else %>
+
+							<li class='first'><%= link_to '登录', login_path %></li>
+              <li class='last'><%= link_to '忘记密码?', new_password_path(resource_name) %></li>	
+
+            <% end %>
+
+            <% unless Rails.env.production? %>
+              <strong class='current-snorby-env'>(<%= Rails.env.upcase %> MODE)</strong>
+            <% end %>
+
+					</ul>
+					
+				</div>
+				
+			</div>
+		</div>
+		
+		<div id="menu">
+
+			<ul class='container_12'>
+
+				<% if user_signed_in? %>
+					<li class='item blank first'></li>
+					<li class='item'><%= link_to "概览", dashboard_path %></li>
+					
+           			<!--<li class='item'><%= link_to "事件", sessions_events_path %></li>-->
+                                <li class='item'><%= link_to "事件", events_path %></li>
+					
+					<li class='item'><%= link_to "搜索", search_path %></li>
+					
+					<li class='item'><%= link_to "规则库", rules_path %></li>
+
+                                        <li class='item'><%= link_to "流量统计", net_flows_path %></li>
+					
+
+					<% if current_user.admin %>
+            <li class='administration'><%= link_to "管理" %></li>
+
+            <dl id="admin-menu" style='display:none;'>
+              
+              <dd>
+                <%= link_to "设备设置", settings_path %>
+              </dd>
+
+               <div class="admin-arrow"></div>
+              <dd>
+                <%= link_to "用户管理", users_path %>
+              </dd>
+		<dd>
+                <%= link_to "网络配置", network_path %>
+              </dd>
+              <dd>
+		<%= link_to "时间设置", time_path %>
+	      </dd>
+	      <dd>
+		<%= link_to "操作日志", logs_path%>
+	      </dd>
+	      <dd>
+                <%= link_to "系统重启", restart_path %>
+              </dd>
+	      <dd>
+                <%= link_to "远程日志", syslogconf_path %>
+              </dd>
+              <dd>
+                <%= link_to "抓包任务", tcpdumps_path %>
+	      </dd>
+            </dl>
+
+					<% end %>
+					
+					<% unless Snorby::Worker.running? %>
+            <li class='menu-error right <%= current_user.admin ? 'admin' : '' %>'>
+              <%= image_tag('icons/note-icon-white.png') %>
+   		请刷新页面！
+            </li>
+					<% end %>
+				<li class='item blank last'></li>
+				
+				<% end %>
+				
+			</ul>
+
+		</div>
+		
+	</div>
+</div>

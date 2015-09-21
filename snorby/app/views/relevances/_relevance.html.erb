@@ -1,0 +1,9 @@
+<% if relevance.sig_class_name != nil %>
+<tr id='relevance_<%= relevance.id %>'>
+    <td><%= relevance.sig_class_name %></td>
+    <td><%= relevance.classification_name %></td>
+     <!--<td><%= link_to 'Show', relevance %></td>-->
+    <td><%= link_to 'Edit', edit_relevance_path(relevance) %></td>
+    <td><%= link_to 'Destroy', relevance, confirm: 'Are you sure?', method: :delete %></td>
+</tr>
+<% end %>

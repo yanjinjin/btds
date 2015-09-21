@@ -1,0 +1,111 @@
+<% javascript :footer, 'sparkline', 'highcharts', 'highcharts-more', 'highcharts_helper', 'solid-gauge' %>
+
+<%= title "流量统计" %>
+
+<div id='net_flows' , class='grid_12 page boxit'>
+  <div id="form-holder">
+    <div class="grid_5" style="width:650px">
+      <table border="1" width="650px">
+        <tr>
+          <td>接口名称</td><td><%= @data_a[0][0] %></td><td>接口流速</td><td><%= @data_a[0][5] %></td>
+        </tr>
+        <tr>
+          <td>Ip包</td><td id="decoder_pkts"><%= @net_flow.nil? ? 0 : (@net_flow.decoder_pkts/10).round %></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>tcp包</td><td id="decoder_tcp"><%= (@net_flow.nil? ? 0 : @net_flow.decoder_tcp/10).round %></td><td>tcp连接数</td><td id="tcp_sessions"><%= @net_flow.nil? ? 0 : (@net_flow.tcp_sessions/10).round %></td>
+        </tr>
+        <tr>
+	  <td>tcp.syn包</td><td id="tcp_syn"><%= @net_flow.nil? ? 0 : (@net_flow.tcp_syn/10).round %></td><td>tcp.rst包</td><td id="tcp_rst"><%= @net_flow.nil? ? 0 : (@net_flow.tcp_rst/10).round %></td>
+        </tr>
+        <tr>
+          <td>udp包</td><td id="decoder_udp"><%= @net_flow.nil? ? 0 : (@net_flow.decoder_udp/10).round %></td><td>Icmp包</td><td id="decoder_icmp"><%= @net_flow.nil? ? 0 : ((@net_flow.decoder_icmpv4+@net_flow.decoder_icmpv6)/10).round %></td>
+        </tr>
+        <tr>
+          <td>gre包</td><td id="decoder_gre"><%= @net_flow.nil? ? 0 : (@net_flow.decoder_gre/10).round %></td><td></td><td></td>
+        </tr>
+      </table>
+    </div>
+    <div class="grid_3" style="width:200px">
+      <p>
+	<div id='flow_state' style='width:200px;height:150px;'></div>
+      </p>
+    </div>
+    <div class="grid_12">
+      <p>
+        <form method="get">
+          <div>
+            <span class="input-group-addon" id="basic-addon8" style="width:200px;">选择统计周期/间隔</span>
+            <%= select("time", "range", $rangeList.collect{|range| [range["text"], range["value"]]}, :selected => (@selected ? @selected : "") )%>&nbsp
+            <input type="hidden" id="time_range_hidden" value="<%= @selected %>">
+            <input type="submit" class="btn btn-default"/>
+          </div>
+        </form>
+      </p>
+      <p>
+        <div id='flow_history' style='width:900px;height:330px;float:left;'></div>
+      </p>
+    </div>
+  </div>
+</div>
+<% content_for :footer do %>
+<script language="javascript" type="text/javascript">
+  $(function () {
+    $('#flow_state').highcharts(Highcharts.merge(gaugeOptions, {
+      yAxis: {
+        min: 0,
+        max: 1000000000,
+        title: {
+          text: ''
+        }
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        name: '当前流速',
+        data: [<%= @current_speed %>],
+        dataLabels: {
+          formatter: function(){
+                       var value = 0;
+                       var unit = "b";
+                       if(this.y/1000000 > 1){value = Math.round(this.y/1000000);unit="M";}
+                       else if(this.y/1000 > 1){value = Math.round(this.y/1000);unit="Kb"}
+                       else {value = this.y;unit="b"}
+                       return '<div style="text-align:center"><span style="font-size:20px;color:black">'+value+'</span><br/>'+'<span style="font-size:12px;color:silver">'+unit+'ps</span></div>';}
+          },
+          tooltip: {
+            valueSuffix: '/s'
+          }
+        }]
+      }));
+    });
+
+  myLineChart("flow_history","流量历史", <%= @data.to_json.html_safe %>, <%= @start %>, <%= @x_interval%>);
+
+  setInterval(function(){
+    $.ajax({
+      url: "/net_flows",
+      dataType: "json",
+      data: {time:{range:$("#time_range_hidden").val()}},
+      type: "GET"
+    }).done(function(data){
+      var chart_flow = $('#flow_state').highcharts();
+      var point_flow = chart_flow.series[0].points[0];
+      point_flow.update(data.current_speed);
+      document.getElementById("decoder_pkts").innerHTML = Math.round(data.net_flow.decoder_pkts/10);
+      document.getElementById("decoder_tcp").innerHTML = Math.round(data.net_flow.decoder_tcp/10);
+      document.getElementById("tcp_sessions").innerHTML = Math.round(data.net_flow.tcp_sessions/10);
+      document.getElementById("tcp_syn").innerHTML = Math.round(data.net_flow.tcp_syn/10);
+      document.getElementById("tcp_rst").innerHTML = Math.round(data.net_flow.tcp_rst/10);
+      document.getElementById("decoder_udp").innerHTML = Math.round(data.net_flow.decoder_udp/10);
+      document.getElementById("decoder_icmp").innerHTML = Math.round((data.net_flow.decoder_icmpv4+data.net_flow.decoder_icmpv6)/10);
+      document.getElementById("decoder_gre").innerHTML = Math.round(data.net_flow.decoder_gre/10);
+      var history = $('#flow_history').highcharts();
+      var start = history.series[0];
+      var tmp = eval(data.data)
+      start.update(tmp[0]);
+    });
+  },10000);
+</script>
+<% end %>

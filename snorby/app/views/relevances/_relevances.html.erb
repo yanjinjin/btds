@@ -1,0 +1,18 @@
+<div id="rules" class='boxit'>
+<table class='default' border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th>Sig name</th>
+    <th>Classification</th>
+    <!--<th></th>-->
+    <th></th>
+    <th></th>
+  </tr>
+  <tbody class='relevances'>
+    <%= render @relevances %>
+  </tbody>
+
+</table>
+
+  <%= pager(@rules, request.fullpath) %>
+
+</div>

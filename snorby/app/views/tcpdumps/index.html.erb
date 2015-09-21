@@ -1,0 +1,26 @@
+<%= title "抓包任务" do -%>
+
+  <%= menu_item "新增任务", new_tcpdump_path %>
+
+<% end %>
+
+<div id="tcpdump" class='grid_12 page boxit'>
+  <table class='default' border="0" cellspacing="0" cellpadding="0" >
+    <tr>
+      <th>状态</th>
+      <th>任务名称</th>
+      <th>执行时间</th>
+      <th>抓包时间</th>
+      <th>文件大小</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tbody class='tcpdumps'>
+      <%= render @tcpdumps %>
+    </tbody>
+  </table>
+  <%= pager(@tcpdumps, 'tcpdumps')%>
+</div>

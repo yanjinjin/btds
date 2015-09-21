@@ -1,0 +1,8 @@
+	<%= drop_down_for('日志管理', 'icons/filter.png', 'options') do %>				
+                
+		<%= link_to "导出日志",export_logs_path %>
+		<%= link_to "备份日志",backup_logs_path,confirm: '确认备份日志到服务器?' %>
+		<%= link_to "查看备份",showbak_logs_path %>
+		<%= link_to "清空日志",empty_logs_path,confirm: '确认清空所有日志?' %>
+	
+	<% end %>

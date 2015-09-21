@@ -1,0 +1,40 @@
+ zh-CN:                          # 这里跟配置文件里的地区代码
+  layouts:                       #模板文件夹
+      Events: "实时"              # 具体翻译对象
+      Network: "网络配置"        # 具体翻译对象
+      Queue: "队列"              # 具体翻译对象
+      Dashboard: "面板"           # 具体翻译对象
+      administrator: "管理员"       # 具体翻译对象
+      
+  network:                        # 控制器
+    show:                         # 方法
+      network: "网络配置"           # 翻译映射
+  dashboard:                       # 控制器
+    index:                          # 方法
+      dashboard: "面板"              # 翻译映射
+  events:                           # 控制器
+    sessions:                        # 方法
+      Listing ssession: "实时会话"      #  翻译映射
+  sensors:                          # 控制器
+    index:                          # 方法
+      title: "传感器列表"             #  翻译映射
+
+  date:
+    order:
+      - :year
+      - :month
+      - :day
+    month_names:
+      -
+      - 一月
+      - 二月
+      - 三月
+      - 四月
+      - 五月
+      - 六月
+      - 七月
+      - 八月
+      - 九月
+      - 十月
+      - 十一月
+      - 十二月

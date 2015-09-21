@@ -1,0 +1,36 @@
+<% content_for :footer do %>
+  <script type="text/javascript">
+    $(function () {
+
+      $('#ram_state').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: '内存'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: '内存',
+            data: [<%= @ram %>],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                       '<span style="font-size:12px;color:silver">%</span></div>'
+            },
+            tooltip: {
+                valueSuffix: '%'
+            }
+        }]
+      }));
+    });
+  </script>
+<% end %>
+
+<div id='ram_state' style='width:230px;height:150px;'></div>
+

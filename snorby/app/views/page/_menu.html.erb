@@ -1,0 +1,21 @@
+	<%= drop_down_for('日期范围', 'icons/filter.png', 'options') do %>				
+
+                <%= drop_down_item "今天", dashboard_path(:range => :today),nil,{ :class => 'dashboard'} %>
+
+		<%= drop_down_item "昨天", dashboard_path(:range => :yesterday),nil,{ :class => 'dashboard'} %>
+
+		<%= drop_down_item " 本周", dashboard_path(:range => :week),nil,{ :class => 'dashboard'} %>
+
+		<%= drop_down_item "上一周", dashboard_path(:range => :last_week),nil,{ :class => 'dashboard'} %>
+
+		<%= drop_down_item " 本月", dashboard_path(:range => :month),nil,{ :class => 'dashboard'} %>
+	
+		<%= drop_down_item "上月", dashboard_path(:range => :last_month),nil,{ :class => 'dashboard'} %>
+
+                <%= drop_down_item "本季度", dashboard_path(:range => :quarter),nil,{ :class => 'dashboard'} %>
+
+                <%= drop_down_item "今年", dashboard_path(:range => :year),nil,{ :class => 'dashboard'} %>
+				
+		<!--<%= drop_down_item "过去24小时", dashboard_path(:range => :last_24), nil, { :class => 'dashboard' } %>-->
+		
+        <% end %>

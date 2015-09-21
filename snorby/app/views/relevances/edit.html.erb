@@ -1,0 +1,46 @@
+<%= title "Editing relevance" do -%>
+	
+<%- end -%>
+<div id='edit-relevance', class='grid_12 page boxit'>
+
+
+<%= form_for(@relevance) do |f| %>
+  <% if @relevance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@relevance.errors.count, "error") %> prohibited this relevance from being saved:</h2>
+
+      <ul>
+      <% @relevance.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+        <div id='form-holder'>
+	 <div class='grid_6'>
+           <p>
+             <%= label_tag 'sig_class_name' %><br />
+             <h1><%= f.label @relevance.sig_class_name %></h1>
+             <%= f.hidden_field :sig_class_id, :value=> @relevance.sig_class_id %>
+           </p>
+         </div>
+         <div class='grid_5'>
+           <p>
+             <%= f.label :classification_id %><br />
+             <% if @classifications !=nil && @classifications.size > 0 %>
+              <%= f.collection_select(:classification_id, @classifications, :id, :name)%>
+             <% end %>
+           </p>
+         </div>
+       </div>
+       <%= form_actions do %>
+		<%= button "Save", :class => 'success' %>
+                <%= button "Back", :class => 'warning to_relevance' %>
+	     <% end %>
+             </br>
+       </div>
+<% end %>
+
+<!--<%= link_to 'Show', @relevance %> | -->
+<!--<%= link_to 'Back', relevances_path %> -->

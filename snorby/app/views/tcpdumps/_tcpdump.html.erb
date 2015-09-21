@@ -1,0 +1,40 @@
+  <tr>
+    <% if tcpdump.status == "0" %> 
+      <td>未启动</td>
+    <% elsif tcpdump.status == "1" %>
+      <td>已启动</td>
+    <% elsif tcpdump.status == "2" %>
+      <td>已完成</td>
+    <% elsif tcpdump.status == "3" %>
+      <td>自启动</td>
+    <% end %>
+    <td><%= tcpdump.name %></td>
+    <td><%= tcpdump.run_at != nil ? tcpdump.run_at.strftime("%Y-%m-%d %H:%M:%S") : "N/A" %></td>
+    <td><%= tcpdump.use_time() %></td>
+    <td><%= tcpdump.size() %></td>
+    <% if tcpdump.status == "0" %>
+      <td><%= link_to '启动', controller: "tcpdumps", action:"start", id: tcpdump %></td>
+      <td><%= link_to '停止', '#' %></td>
+      <td><%= link_to '编辑', edit_tcpdump_path(tcpdump) %></td>
+      <td><%= link_to '导出', '#' %></td>
+      <td><%= link_to '删除', tcpdump, confirm: '确定删除该任务?', method: :delete %></td>
+    <% elsif tcpdump.status == "1" %>
+      <td><%= link_to '启动', '#' %></td>
+      <td><%= link_to '停止', controller: "tcpdumps", action:"stop", id: tcpdump %></td>
+      <td><%= link_to '编辑', '#' %></td>
+      <td><%= link_to '导出', '#' %></td>
+      <td><%= link_to '删除', '#' %></td>
+    <% elsif tcpdump.status == "2" %>
+      <td><%= link_to '启动', '#' %></td>
+      <td><%= link_to '停止', '#' %></td>
+      <td><%= link_to '编辑', '#' %></td>
+      <td><%= link_to '导出', controller: "tcpdumps", action:"sendfile", id: tcpdump %></td>
+      <td><%= link_to '删除', tcpdump, confirm: '确定删除该任务?', method: :delete %></td>
+    <% elsif tcpdump.status == "3" %>
+      <td><%= link_to '启动', '#' %></td>
+      <td><%= link_to '停止', '#' %></td>
+      <td><%= link_to '编辑', edit_tcpdump_path(tcpdump) %></td>
+      <td><%= link_to '导出', '#' %></td>
+      <td><%= link_to '删除', tcpdump, confirm: '确定删除该任务?', method: :delete %></td>
+    <% end %>
+  </tr>

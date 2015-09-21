@@ -1,0 +1,86 @@
+<% content_for :footer do %>
+  <script type="text/javascript">
+    var gaugeOptions = {
+
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            stops: [
+                [0.1, '#55BF3B'], // green
+                [0.5, '#DDDF0D'], // yellow
+                [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            title: {
+                y: -60
+            },
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+
+    setInterval(function(){
+      $.ajax({
+        url: "/state",
+        type:"GET"
+      }).done(function(data){
+        var chart_cpu = $('#cpu_state').highcharts() ;
+        var point_cpu = chart_cpu.series[0].points[0];
+        var chart_ram = $('#ram_state').highcharts() ;
+        var point_ram = chart_ram.series[0].points[0];
+        var chart_disk = $('#disk_state').highcharts() ;
+        var point_disk = chart_disk.series[0].points[0];
+        point_cpu.update(data.cpu);
+        point_ram.update(data.ram);
+        point_disk.update(data.disk);
+      });
+    },3000);
+  </script>
+<% end %>
+<div style="float:left">
+  <%= render 'cpu_state.html.erb' %>
+</div>
+<div style="float:left">
+  <%= render 'ram_state.html.erb' %>
+</div>
+<div style="float:left">
+  <%= render 'disk_state.html.erb' %>
+</div>
+
+

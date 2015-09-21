@@ -1,0 +1,37 @@
+<% if current_user.admin %>
+	
+	<%= title "网络配置" -%>
+<% end %>
+
+<div id="network" class='boxit'>
+	
+	<table class='default' border="0" cellspacing="0" cellpadding="0">
+		<tr>		
+			<th>网卡接口</th>
+			<th>IP地址</th>
+			<th>子网掩码</th>
+			<th>网关</th>
+			<th>MAC地址</th>
+                        <th>网卡速率</th>
+                        <th>状态</th>
+		<tbody class='network'>
+		<% @data_a.each do |f| %>
+		<tr>
+			<td><%= f[0]%></td>
+			<td><%= f[1]%></td>
+			<td><%= f[2]%></td>
+			<td><%= f[3]%></td>
+			<td><%= f[4]%></td>
+			<td><%= f[5]%></td>
+			<td><%= f[6]%></td>
+			</tr>
+		 <% end %>
+		 </table>
+<div id="network" class='boxit'>
+	
+	<table class='default' border="0" cellspacing="0" cellpadding="0">
+ 		 <tr>
+		         <td><%= link_to "修改","/network/edit" ,:class=>"btn"%></td>
+		 </tr>
+	</table>		
+</div>

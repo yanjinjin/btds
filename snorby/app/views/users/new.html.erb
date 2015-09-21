@@ -1,0 +1,102 @@
+<%= snorby_box("添加新用户") do %>
+
+  <div id='snorbybox-content' class=''>
+
+    <div id='settings' class='boxit page'>
+
+      <%= form_for(@user, :url => add_users_path(@user), :html => { :method => :put, :multipart => true, :class => 'basic-form validate' }) do |f| %>
+
+        <%= error_messages_for(@user) %>
+
+        <div id='form-holder' class=''>
+
+          <div class='grid_5'>
+
+            <% if Snorby::CONFIG[:authentication_mode] == "cas" %>
+              <p><%= f.label :name %> <em>(please use your complete CAS login)</em><br />
+              <%= f.text_field :name, :placeholder => 'CAS login', :class => 'required' %></p>
+            <% else %>
+              <p><%= f.label :用户名 %> <br />
+              <%= f.text_field :name, :placeholder => '用户名',:class => 'required' %></p>
+            <% end %>
+
+            <p><%= f.label :登录名 %> <em>(通常使用邮箱地址，用于接收邮件)</em><br />
+            <%= f.text_field :email, :placeholder => '邮箱地址', :class => 'required email' %></p>
+
+            <% if Snorby::CONFIG[:authentication_mode] == "database" %>
+              <p><%= f.label :密码 %><br />
+              <%= f.password_field :password, :placeholder => '密码' %></p>
+
+              <p><%= f.label :确认密码 %><br />
+              <%= f.password_field :password_confirmation, :placeholder => '确认密码' %></p>
+
+              <p>
+            <% end %>
+              每页显示数据<%= f.select :per_page_count, %w[25 45 65 100], { :include_blank => false } %> 条<br />
+              <br />
+              <br />
+            </p>
+
+          </div>
+
+          <div class='grid_5 alpha'>
+
+            <div class='user-show-avatar'>
+				<br/><br/><br/><br/><br/><br/>
+              <%= image_tag(get_gravatar_uri(@user.email), :class => 'avatar') %>
+				<br/><br/>
+              <p><strong>登录账户:</strong> <%= @user.sign_in_count %></p>
+
+              <p><strong>当前登录IP:</strong> <%= @user.current_sign_in_ip || 'N/A' %></p>
+
+              <p><strong>最近登录时间:</strong> <%= @user.last_sign_in_at.blank? ? Time.now.strftime('%a %b, %Y %I:%M %p') : @user.last_sign_in_at.strftime('%a %b, %Y %I:%M %p') %></p>
+
+              <p><strong>上次登录IP:</strong> <%= @user.last_sign_in_ip || 'N/A' %></p>
+				<!--
+              <p><strong>Queued Event Count:</strong> <%= @user.favorites_count %></p>
+
+              <p><strong>Notes Count:</strong> <%= @user.notes_count %></p>
+				-->
+            </div>
+				<!--
+            <p>
+              <em>(To change/add a avatar please visit <a href="http://gravatar.com">http://gravatar.com</a>)</em>
+            </p>
+            <p>
+              <%= f.label 'Time Zone:' %>
+              <%= f.time_zone_select :timezone, ActiveSupport::TimeZone.us_zones %>
+            </p>
+            <p>
+              <%= f.check_box :email_reports %> <%= f.label 'Event Summary Report:' %>
+              <br />
+              <em>(Would you like to receive an event summary report every 30 minutes)</em><br />
+            </p>
+				-->
+            <% if current_user.admin? %>
+
+              <p>
+                <%= f.check_box :admin %> <%= f.label "管理员" %>
+                <em>(是否设置该用户为管理员?)</em>
+              </p>
+
+            <% end %>
+
+          </div>
+
+        </div>
+
+        <%= form_actions do %>
+
+          <%= button "添加", :class => 'success' %>
+
+          <%= button "取消", :class => 'warning limp-box-close' %>
+
+        <% end %>
+
+      <% end %>
+
+    </div>
+      
+  </div>
+
+<% end %>

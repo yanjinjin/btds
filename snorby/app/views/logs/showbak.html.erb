@@ -1,0 +1,29 @@
+        <%= title "备份文件列表" do -%>
+                        <%= render :partial => 'logs/menu' %>
+                <% end %>
+
+<div id="users" class='grid_12 page boxit'>
+	
+	<table class='default' border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<th>备份文件名</th>
+			<th>恢复日志</th>
+			<th>删除备份</th>
+		</tr>
+	<tbody class='logs'>
+	
+	<% @filename.each do |f| %>
+	        <tr>
+  			<td ><%= f %> </td>
+			<td><%= link_to("恢复备份",{:controller => 'logs',:action => 'recovery',:filename => f, :class => "btn"})%></td>
+			<td><%= link_to("删除备份",{:controller => 'logs',:action => 'delete',:filename => f, :class => "btn"},confirm: '确认删除本条备份?')%></td>
+		</tr>
+	<% end %>
+		</tbody>
+	</table>
+
+
+	
+	
+</div>
+

@@ -1,0 +1,36 @@
+<% content_for :footer do %>
+  <script type="text/javascript">
+    $(function () {
+
+      $('#disk_state').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: '磁盘'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: '磁盘',
+            data: [<%= @disk %>],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                       '<span style="font-size:12px;color:silver">%</span></div>'
+            },
+            tooltip: {
+                valueSuffix: '%'
+            }
+        }]
+      }));
+    });
+  </script>
+<% end %>
+<div id='disk_state' style='width:230px;height:150px'></div>
+
+

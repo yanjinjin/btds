@@ -1,0 +1,66 @@
+<div class='event-data-holder'>
+	<div class='event-data-holder-inside'>
+		<div id='event-menu'>
+			
+			<ul>
+
+        	<% if @session_view %>
+         	 <li>
+            	<%= link_to "查看所有", results_path({
+              	:title => "事件",
+             	:match_all => true,
+              	:search => {
+                :source_address => { :column => :source_ip, :operator => :is, :value => @event.ip.ip_src.to_s },
+                :destination_address => { :column => :destination_ip, :operator => :is, :value => @event.ip.ip_dst.to_s },
+                :signature => { :column => :signature, :operator => :is, :value => @event.signature.sig_id },
+               
+              }
+            }), :class => 'dark-button' %>
+         	 </li>
+       		<% end %>
+			</ul>
+		</div>
+
+		<%= render :partial => 'events/classification' %>
+		<%= render :partial => 'events/ip' if @event.ip.present? %>
+		
+		
+
+		<% if @event.tcp? %>
+			<%= render :partial => 'events/tcp' %>
+		<% elsif @event.udp? %>
+			<%= render :partial => 'events/udp' %>
+		<% elsif @event.icmp? %>
+			<%= render :partial => 'events/icmp' %>
+		<% else %>
+			
+		<% end %>
+		
+		
+
+    <%= render :partial => 'events/refs' if @event.signature.sig_references.present? %>
+
+		<% if @event.payload %>
+		
+			<ul class='payload-tabs plus-side'>
+				<div id="tab-title">载荷</div>
+				<li class='round_top'><%= link_to "Ascii", '#', :"data-div" => 'payload-ascii' %></li>
+				<li class='current round_top'><%= link_to "Hex", '#', :"data-div" => 'payload' %></li>
+			</ul>
+		
+			<div class='payload-ascii plus-side payload-holder' style='display:none'><pre><%= @event.payload.to_ascii %></pre></div>
+
+			<div class='payload plus-side payload-holder'><pre><%= @event.payload.to_html %></pre></div>
+			
+		<% else %>
+		
+			<div class='section-title plus-side bottom-none'>载荷</div>
+		
+			<div class='payload plus no-overflow' style='padding:10px;overflow: hidden;'>没有载荷数据</div>
+		
+		<% end %>
+		
+	</div>
+	
+</div>
+

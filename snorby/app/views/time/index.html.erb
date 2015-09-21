@@ -1,0 +1,65 @@
+<%= stylesheet 'jquery' %>
+<%= javascript :header, 'daterangepicker' %>
+<script language="javascript" type="text/javascript">
+  $(function() {
+    $( "#date_time" ).datetimepicker({
+      	  timeFormat: 'hh:mm:ss',
+          dateFormat: 'yy-mm-dd',
+          numberOfMonths: 1,
+          showSecond: true,
+	        separator: ' '
+    });
+  });
+  setInterval(function(){
+    $.ajax({
+    url: "/time/get_time",
+    type:"GET"
+  }).done(function(data){
+       var obj = data
+       document.getElementById("current_time").innerHTML = obj.time;
+  });
+
+  },1000);
+
+  function setTime(event){
+    document.getElementById("date_type").value = event;
+    if(event == "0"){
+      temp = new Date().getTime();
+      document.getElementById("date_local").value = temp;
+    }; 
+    return false;
+  };
+</script>
+<%= title "时间设置" %>
+<form action="/time/update" method = "get">
+<div id='edit', class='grid_12 page boxit'>
+  <div id='form-holder'>
+    <div class='grid_6'>
+           <p>
+             <h1><%= label :show, "当前时间" %></h1></br>
+             <font size="25px"><div id="current_time" style="font-size:20px"><%= @date %></div></font></br>
+           </p>
+     </div>
+     <div class='grid_5'>
+           <p>
+             <h1>时间同步</h1></br>
+              <button class="syncByLocal default" onclick="setTime('0');"><span>与浏览器同步</span></button>
+              <input type='hidden' id='date_type' name='date[type]' />
+              <input type='hidden' id='date_local' name='date[local]'/>
+           </p>
+     </div>
+     <div class='grid_6'>
+           <p>
+             <h1>设置时间</h1></br>
+             <input type="text" id="date_time" name="date[time]" readonly="readonly" />
+           </p>
+     </div>
+    </div>
+      <%= form_actions do %>
+	<%= button "保存", :class => 'success' %>
+        <%= button "返回", :class => 'warning cancel' %>
+      <% end %>
+             </br>
+    </div>
+</div>
+</form>

@@ -1,0 +1,19 @@
+<div id="logs"  class='boxit'>
+
+	<table class='default' border="0" cellspacing="0" cellpadding="0">
+		<tr>		
+			<th>ID</th>
+			<th>时间</th>
+			<th>用户</th>
+			<th>IP</th>
+			<th>操作</th>
+			<th>操作结果</th>
+		</tr>
+		<tbody class='logs'>
+			<%= render @logs %>
+		</tbody>
+	</table>
+	
+	<%= pager(@logs, request.fullpath) %>
+</div>
+

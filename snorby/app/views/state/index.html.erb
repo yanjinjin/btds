@@ -1,0 +1,27 @@
+<script language="javascript">
+  setTimeout("location.href='/state'",2500)
+</script>
+
+<%= include_stylesheets :iframe, :media => 'all' %>
+
+<body>
+<div id='dashboard'>
+  <div class='secondary'>
+  <div class='dashboard-header'>
+    <span>系统运行状态</span>
+  </div>
+  <ul class='box-list'>
+    <li id="cpuState">
+      CPU  <%= css_chart(percentage_for(@cpu, 100)) %>
+    </li>
+    <li id="ramState">
+      RAM  <%= css_chart(percentage_for(@ram, 100)) %>
+    </li>	
+    <li id="diskState">
+      DISK <%= css_chart(percentage_for(@disk, 100)) %>
+    </li>
+			
+  </ul>
+  </div>
+</div>
+</body>

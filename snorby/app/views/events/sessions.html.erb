@@ -1,0 +1,28 @@
+<%= title '事件列表' do -%>
+  
+
+	
+
+  <%= drop_down_for('分类查看', 'icons/filter.png', 'options') do %>
+	<div class="filter">
+	<% @classifications.each do |classification| %>
+         		<%= link_to truncate(classification.name, :length => 25), results_path(:title => "#{classification.name}", 
+         		 "match_all"=>"true", "search"=>{"sensor"=>{"column"=>"classification", "operator"=>"is", "value"=> classification.id } }), :title => classification.name %>
+			<% end %>
+			
+		</div>
+
+  <% end %>
+<%- end -%>
+<%= render :partial => 'events/events' %>
+
+
+
+<script type="text/javascript" charset="utf-8">
+  Snorby.sessionViewUpdate({
+    page: <%= params[:page].to_i %>,
+    sort: "<%= params[:sort] %>",
+    direction: "<%= params[:direction] %>",
+    timestamp: "<%= params[:_] %>"
+});
+</script>

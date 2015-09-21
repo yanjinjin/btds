@@ -1,0 +1,72 @@
+<%= stylesheet 'jquery' %>
+<%= javascript :header, 'daterangepicker' %>
+<%= title "设置" %>
+<script language="javascript" type="text/javascript">
+  $(function() {
+    $( "#_tcpdump_plan_start_time" ).datetimepicker({
+          timeFormat: 'hh:mm:ss',
+          dateFormat: 'yy-mm-dd',
+          numberOfMonths: 1,
+          showSecond: true,
+                separator: ' '
+    });
+  });
+</script>
+
+<div id='general-settings', class='grid_13 page boxit'>
+	<%= form_tag Snorby::CONFIG[:baseuri] + '/tcpdumps/update', :multipart => true, :class => '' do %>
+	<div id='form-holder2'>
+		<div class=''>
+                   <table>
+                     <tr>
+				<td><%= label_tag '任务名称' %></td>
+				<td><%= text_field_tag '[tcpdump][name]', @tcpdump.name, :class => 'required' %></td>
+			        <%= hidden_field_tag '[id]', @tcpdump.id %>
+                        </tr>
+			<tr>
+				<td><%= label_tag '源ip' %> <i></i></td>
+				<td><%= text_field_tag '[tcpdump][src_ip]', @tcpdump.src_ip, :pattern => '^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$' %></td>
+				<td><%= label_tag '目标ip' %> <i></i></td>
+				<td><%= text_field_tag '[tcpdump][dst_ip]', @tcpdump.dst_ip, :pattern => '^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$' %></td>
+
+			</tr>
+                        <tr>
+                                <td><%= label_tag '源端口' %> <i></i></td>
+                                <td><%= text_field_tag '[tcpdump][src_port]', @tcpdump.src_port, :pattern => '^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$' %></td>
+				<td><%= label_tag '目标端口' %> <i></i></td>
+				<td><%= text_field_tag '[tcpdump][dst_port]', @tcpdump.dst_port, :pattern => '^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$' %></td>
+                        </tr>
+                        <tr><strong>
+                           <td><%= label_tag '协议' %> <i></i></td>
+                           <td><%= radio_button_tag '[tcpdump][protocol]', 'tcp', @tcpdump.protocol != 'udp'?true : false %>
+                           <%= label_tag(:type_n, "tcp") %>
+                           <%= radio_button_tag '[tcpdump][protocol]', 'udp', @tcpdump.protocol == 'udp'?true : false %>
+                           <%= label_tag(:type_s, "udp") %></td>
+			</strong></tr>
+                        <tr>
+                               <td> <%= label_tag '抓包时间(s)' %> <i></i></td>
+				<td><%= text_field_tag '[tcpdump][plan_time]', @tcpdump.plan_time, :pattern => '^[0-9]*$', disabled: false %></td>
+                                <td><%= label_tag '文件大小(M)' %> <i></i></td>
+                                <td><%= text_field_tag '[tcpdump][plan_size]', @tcpdump.plan_size, :pattern => '^[0-9]*$', disabled: false %></td>
+                        </tr>
+                        <tr><strong>
+			   <td><%= label_tag '定时任务' %> <i></i></td>
+                           <td><%= radio_button_tag '[tcpdump][plan_start]', true, @tcpdump.plan_start %>
+                           <%= label_tag(:type_n, "开启") %>
+                           <%= radio_button_tag '[tcpdump][plan_start]', false, !@tcpdump.plan_start %>
+                           <%= label_tag(:type_s, "关闭") %></td>
+                        </strong></tr>
+                        <tr>
+                           <td><%= label_tag '执行时间' %> <i></i></td>
+                           <td><input type="text" id="_tcpdump_plan_start_time" name="[tcpdump][plan_start_time]" readonly="readonly" value="<%= @tcpdump.plan_start_time %>" /></td>
+                        </tr>
+                  </table>
+		</div>
+
+	</div>	
+	<%= form_actions do %>
+		<%= button "保存设置", :class => 'success' %>
+		<%= button "取消", :class => 'warning go_tcpdump' %>
+	<% end %>
+	<% end %>
+</div>

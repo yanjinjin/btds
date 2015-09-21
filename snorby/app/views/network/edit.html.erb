@@ -1,0 +1,80 @@
+<% if current_user.admin %>
+	
+	<%= title "网络配置" -%>
+
+<% end %>
+<% content_for :footer do %>
+  <script type="text/javascript">
+    $(get_nic_info());
+    $("#upeth").change(function(){get_nic_info()});
+    function get_nic_info () {
+      var nic_name = $("#upeth").find("option:selected").val();
+      $.ajax({
+        url: "/network/getNIC",
+        data: {
+          name : nic_name
+        },
+        type:"GET"
+      }).done(function(data){
+        if(data != null){
+          document.getElementById("ip").value = data.ip;
+          document.getElementById("msk").value = data.mask;
+          document.getElementById("gw").value = data.gw;
+          document.getElementById("mac").value = data.mac;
+        }else{
+          document.getElementById("ip").value = "";
+          document.getElementById("msk").value = "";
+          document.getElementById("gw").value = "";
+          document.getElementById("mac").value = "";
+        }
+      });
+    }
+  </script>
+<% end %>
+<div id='general-settings', class='grid_12 page boxit'>
+	
+	<%= form_tag Snorby::CONFIG[:baseuri] + '/network/update', :multipart => true,  :class => ' validate' do %>
+	
+	<div id='form-holder'>
+		
+		<div class='grid_6'>
+			<p><strong>
+				<!--<%= label_tag '请选择网卡' %><br/>-->
+				<%= select_tag(:upeth, options_for_select(@data_b))%>
+				</strong>
+			</p>
+			<p><strong>
+				<%= label_tag 'IP地址' %><br />
+				<%= text_field_tag (:ip), nil, :class => 'required', :pattern => '([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])' %>
+				</strong>
+			</p>
+
+			<p>
+				<strong>
+				<%= label_tag '子网掩码' %><br />
+				<%= text_field_tag (:msk), nil, :class => 'required', :pattern => '([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])' %>
+				</strong>
+			</p>
+			
+			<p>
+				<strong>
+				<%= label_tag '网关' %><i>(多块网卡时仅需设置一次网关，可能与当前IP不在同一网段.)</i><br />
+				<%= text_field_tag (:gw), nil,  :pattern => '([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])' %>
+				</strong>
+			</p>
+			
+			<p><%= hidden_field_tag (:mac) %></p>
+
+		</div>
+		
+	</div>
+	
+	<%= form_actions do %>
+
+		<%= button "提交", :class => 'success' %>
+
+		<%= button "取消", :class => 'warning cancel' %>
+
+	<% end %>
+ <% end %>
+</div>

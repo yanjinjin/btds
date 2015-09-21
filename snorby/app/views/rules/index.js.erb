@@ -1,0 +1,2 @@
+$('div#rules').replaceWith("<%= escape_javascript(render(:partial => 'rules/rules', :locals => { :rules => @rules })) %>");
+flash();

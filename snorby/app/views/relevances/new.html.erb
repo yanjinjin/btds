@@ -1,0 +1,47 @@
+<%= title "New Relevance" do -%>
+	
+<%- end -%>
+<div id='new-relevance', class='grid_12 page boxit'>
+
+   <%= form_for(@relevance) do |f| %>
+      <% if @relevance.errors.any? %>
+         <div id="error_explanation">
+           <h2><%= pluralize(@relevance.errors.count, "error") %> prohibited this relevance from being saved:</h2>
+           <ul>
+             <% @relevance.errors.full_messages.each do |msg| %>
+             <li><%= msg %></li>
+             <% end %>
+           </ul>
+         </div>
+       <% end %>
+ 
+       <div id='form-holder'>
+	 <div class='grid_6'>
+           <p>
+             <%= label_tag 'sig_class_name' %><br />
+             <% if @categorys !=nil && @categorys.size > 0 %>
+               <%= f.collection_select(:sig_class_id, @categorys, :sig_class_id, :sig_class_name)%>
+             <% else %>
+                <h1><%= label_tag 'No data' %></h1><br />
+             <% end %>
+           </p>
+         </div>
+         <div class='grid_5'>
+           <p>
+             <%= f.label :classification_id %><br />
+             <% if @classifications !=nil && @classifications.size > 0 %>
+               <%= f.collection_select(:classification_id, @classifications, :id, :name)%>
+             <% end %>
+           </p>
+         </div>
+       </div>
+             <%= form_actions do %>
+		<%= button "Save", :class => 'success' %>
+                <%= button "Back", :class => 'warning to_relevance' %>
+	     <% end %>
+             </br>
+       </div>
+     <% end %>
+
+
+

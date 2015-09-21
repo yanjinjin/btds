@@ -1,0 +1,27 @@
+<div id="search" class="boxit page grid_12">
+
+  <div class="search-match-box" style="display:;">
+    匹配下面 
+    <select class="global-match-setting">
+      <option value="any">任何一个</option>
+      <option value="all" selected="selected">所有</option>
+    </select> 
+    搜索规则: 
+  </div>
+
+  <div class="other-search-options" style="display:none;">
+    <input name="limit-all-search-rules" type="checkbox"> 
+    Limit to
+    <input class="limit-search-results-count" name="limit-search-results-to" type="text" value="10000"> 
+    ordered by
+    <select><option value="any">Event Timestamp</option><option value="all">All</option></select>
+    <br>
+    <input name="ignore-classified-events" type="checkbox"> Ignore all classified events.
+  </div>
+
+  <div class="rules"></div>
+
+  <div id="form-actions">
+    <button class="{{cssClass}} success default"><span>{{buttonTitle}}</span></button>
+  </div>
+</div>

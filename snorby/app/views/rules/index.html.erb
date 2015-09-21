@@ -1,0 +1,19 @@
+<%= title "规则展示(#{@version}版  #{@timestamp}  共#{@total}条)", "规则展示" %>
+
+<div id="rules" class='boxit'>
+<table class='default' border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <!--<th><%= @count %></th>-->
+    <th width='150px'>ID</th>
+    <th width='970px'>信息</th>
+    <th width='280x'>类型</th>
+  </tr>
+
+  <tbody class='rules'>
+    <%= render @rules %>
+  </tbody>
+
+</table>
+<%= pager(@rules, request.fullpath) %>
+<br />
+</div>

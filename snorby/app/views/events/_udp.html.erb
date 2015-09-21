@@ -1,0 +1,22 @@
+<div class='section-title plus'>UDP头信息</div>
+
+<div class='proto plus'>
+
+	<table class='default' border='0' cellspacing='0' cellpadding='0'>
+		<tr>
+			<th class='first'>源端口</th>
+			<th>目的端口</th>
+			<th>Len</th>
+			<th class='last'>Csum</th>
+		</tr>
+		<tbody>
+			<tr>
+				<td class='first'><%= @event.udp.udp_sport %></td>
+				<td><%= @event.udp.udp_dport %></td>
+				<td><%= @event.udp.udp_len %></td>
+				<td class='last'><%= @event.udp.udp_csum %></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</div>

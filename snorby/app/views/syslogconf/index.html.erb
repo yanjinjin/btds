@@ -1,0 +1,79 @@
+<% if current_user.admin %>
+	
+	<%= title "远程日志" -%>
+
+<% end %>
+<% content_for :footer do %>
+  <script type="text/javascript">
+    var insuranceTypeVar = $("input[type='radio']:checked").val();
+    if(insuranceTypeVar == "n"){
+      document.getElementById("ip").disabled  = true;
+      document.getElementById("ip").class  = "";
+      document.getElementById("port").disabled  = true;
+    };
+    $(document).ready(function () { 
+      $("#insuranceTypeSelect").change(function () {
+        insuranceTypeVar = $("input[type='radio']:checked").val();
+        switch(insuranceTypeVar){
+          case "s":
+            document.getElementById("ip").disabled  = false;
+            document.getElementById("port").disabled  = false;
+            break;
+          case "b":
+            document.getElementById("ip").disabled  = false;
+            document.getElementById("port").disabled  = false;
+            break;
+          case "n":
+            document.getElementById("ip").disabled  = true;
+            document.getElementById("ip").class  = "";
+            document.getElementById("port").disabled  = true;
+            break;
+         }
+      });   
+    });   
+  </script>
+<% end %>
+<div id='general-settings', class='grid_12 page boxit'>
+	
+	<%= form_tag Snorby::CONFIG[:baseuri] + '/syslogconf/update', :multipart => true,  :class => ' validate' do %>
+	
+	<div id='form-holder'>
+		
+		<div class='grid_6'>
+                        <div id="insuranceTypeSelect">
+		        <p><strong>
+			   <%= radio_button_tag(:type, "n", @type == nil ? true : false) %>
+                           <%= label_tag(:type_n, "关闭日志") %>
+                           <%= radio_button_tag(:type, "s", @type == "s" ? true : false) %>
+                           <%= label_tag(:type_s, "json日志") %>
+                           <%= radio_button_tag(:type, "b", @type == "b" ? true : false) %>
+                           <%= label_tag(:type_b, "fast日志") %>
+                        </strong></p>
+                        </div> 
+                        </br>
+			<p><strong>
+				<%= label_tag 'IP地址:' %><br />
+				<%= text_field_tag (:ip), @ip, :class => 'required', :pattern => '(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5]))|#' %>
+				</strong>
+			</p>
+		
+			<p>
+				<strong>
+				<%= label_tag '端口号:' %>(默认为514)<br />
+				<%= text_field_tag (:port), @port, :pattern => '^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$' %>
+				</strong>
+			</p>
+
+		</div>
+		
+	</div>
+	
+	<%= form_actions do %>
+
+		<%= button "提交", :class => 'success' %>
+
+		<%= button "取消", :class => 'warning cancel' %>
+
+	<% end %>
+ <% end %>
+</div>

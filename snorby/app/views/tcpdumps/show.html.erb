@@ -1,0 +1,80 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @tcpdump.id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @tcpdump.status %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @tcpdump.name %>
+</p>
+
+<p>
+  <b>Run at:</b>
+  <%= @tcpdump.run_at %>
+</p>
+
+<p>
+  <b>Stop at:</b>
+  <%= @tcpdump.stop_at %>
+</p>
+
+<p>
+  <b>Src ip:</b>
+  <%= @tcpdump.src_ip %>
+</p>
+
+<p>
+  <b>Dst ip:</b>
+  <%= @tcpdump.dst_ip %>
+</p>
+
+<p>
+  <b>Src port:</b>
+  <%= @tcpdump.src_port %>
+</p>
+
+<p>
+  <b>Dst port:</b>
+  <%= @tcpdump.dst_port %>
+</p>
+
+<p>
+  <b>Protocol:</b>
+  <%= @tcpdump.protocol %>
+</p>
+
+<p>
+  <b>Plan time:</b>
+  <%= @tcpdump.plan_time %>
+</p>
+
+<p>
+  <b>Plan size:</b>
+  <%= @tcpdump.plan_size %>
+</p>
+
+<p>
+  <b>Plan task:</b>
+  <%= @tcpdump.plan_task %>
+</p>
+
+<p>
+  <b>Plan start:</b>
+  <%= @tcpdump.plan_start %>
+</p>
+
+<p>
+  <b>Plan start time:</b>
+  <%= @tcpdump.plan_start_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_tcpdump_path(@tcpdump) %> |
+<%= link_to 'Back', tcpdumps_path %>

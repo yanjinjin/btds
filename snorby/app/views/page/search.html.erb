@@ -1,0 +1,34 @@
+<%= stylesheet 'jquery' %>
+<%= javascript :header, 'daterangepicker' %>
+
+<% content_for :footer do %>
+
+  <script type="text/javascript">
+
+    var rule = new SearchRule('<%= escape_javascript @json.html_safe %>');
+    rule.searchUI({
+      cssClass: "submit-search",
+      buttonTitle: "搜索"
+    });
+rule.add();
+rule.add();
+rule.add();
+
+	</script>
+
+<% end %>
+
+<%= title "搜索" do %>
+
+	<%= drop_down_for('更多选项', 'icons/filter.png', 'options') do %>
+
+    <%= drop_down_item "保存当前搜索条件", new_saved_search_path, nil, { :class => "snorbybox" } %>
+
+    <%= drop_down_item "查看已保存搜索结果", saved_searches_path, nil %>
+
+    <%= drop_down_item "重置搜索项", '#', nil, {:class => 'reset-search-form'} %>
+
+	<% end %>
+
+<% end %>
+

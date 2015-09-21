@@ -1,0 +1,39 @@
+en:
+  errors:
+    messages:
+      not_found: "未找到"
+      already_confirmed: "已被确认"
+      not_locked: "未冻结"
+
+  devise:
+    failure:
+      unauthenticated: '请先登录.'
+      unconfirmed: '请确认账户信息.'
+      locked: '你的账户已被冻结.'
+      invalid: '登录名或密码错误.'
+      invalid_token: '认证失败.'
+      timeout: '会话已失效，请重新登录.'
+      inactive: '你的账户尚未激活.'
+    sessions:
+      signed_in: '登录成功.'
+      signed_out: '登出成功.'
+    passwords:
+      send_instructions: '你会在几分钟内收到关于如何设置密码的邮件.'
+      updated: '密码修改成功'
+    confirmations:
+      send_instructions: '你会在几分钟内收到关于账户确认的邮件.'
+      confirmed: '账户确认成功'
+    registrations:
+      signed_up: '注册成功，账户启用后会收到确认邮件'
+      updated: '账户更新成功.'
+      destroyed: '账户删除成功.'
+    unlocks:
+      send_instructions: '你会在几分钟内收到关于如何解锁账户的邮件.'
+      unlocked: '账户解锁成功.'
+    mailer:
+      confirmation_instructions:
+        subject: '确认指令'
+      reset_password_instructions:
+        subject: '密码重置指令'
+      unlock_instructions:
+        subject: '解锁指令'

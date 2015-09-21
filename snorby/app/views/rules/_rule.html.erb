@@ -1,0 +1,15 @@
+<tr id='rule_<%= rule.id %>'>
+    <td><%= rule.id %></td>
+
+    <% if rule.msg.size > 200 %>
+      <td title= "<%= split_title(rule.msg) =%>"><%= rule_truncate(rule.msg, 200) %></td>
+    <% else %>
+      <td><%= rule.msg %></td>
+    <% end %>
+
+    <% if rule.classtype != nil %>
+      <td><%= rule.classtype %></td>
+    <% else %>
+      <td>&nbsp</td>
+    <% end %>
+</tr>

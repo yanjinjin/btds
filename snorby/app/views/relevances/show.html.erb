@@ -1,0 +1,25 @@
+<%= title "Show Relevance" do -%>
+	<!--<p id="notice"><%= notice %></p>-->
+<%- end -%>
+
+<div id='new-relevance', class='grid_12 page boxit'>
+ <div id='form-holder'>
+	 <div class='grid_6'>
+           <p>
+             <%= label_tag 'Sig class:' %><br />
+             <h1><%= label_tag @relevance.sig_class_name %></h1><br />
+           </p>
+         </div>
+         <div class='grid_5'>
+           <p>
+             <%= label_tag 'Classification' %><br />
+             <h1><%= label_tag @relevance.classification_name %></h1><br />
+           </p>
+         </div>
+       </div>
+             <%= form_actions do %>
+                <%= button "Back", :class => 'success to_relevance' %>
+	     <% end %>
+             </br>
+       </div>
+

@@ -1,0 +1,14 @@
+<div id="rules" class='boxit'>
+<table class='default' border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th>Sid</th>
+    <th>Msg</th>
+    <th>classtype</th>
+  <tbody class='rules'>
+    <%= render @rules %>
+  </tbody>
+</table>
+
+<%= pager(@rules, request.fullpath) %>
+
+</div>

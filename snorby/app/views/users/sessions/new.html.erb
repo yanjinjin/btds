@@ -1,0 +1,29 @@
+<%= title "请先登录" -%>
+<div id='signin' class='content-box'>
+  <div class="content-box-title">
+    天泰僵尸木马监测系统
+  </div>
+  <div class="content-box-body">
+    <div class="login-form-body">
+      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'validate'}) do |f| %>
+	 
+	  <span class="img-username"></span><%= f.text_field :email, :value => session[:email], :autocomplete => :off, :class => 'required email', :placeholder => '用户名',:style => 'height:12px;'%><i class="icon-user"></i></p>
+      
+	  <span class="img-passwd"></span><%= f.password_field :password,:autocomplete => :off, :class => 'required password',:placeholder => '密码',:style => 'height:12px;'%><i class="icon-lock"></i></p>
+	
+	  
+      <% if devise_mapping.rememberable? -%>
+      <div class="remember-me">
+        <p><%= f.check_box :remember_me, :checked => 'checked' %> <%= f.label :记住密码  %></p>
+      </div>
+      <% end -%>
+    </div>
+    <div class="login-form-actions">
+      <button class="login-button login-default">登录</button>
+    </div>
+  <% end %>
+  </div>
+  <div class="auth-loading" style="display:none;">
+    <span>提交认证，请稍候...</span>
+  </div>
+</div>
